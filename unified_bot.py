@@ -71,9 +71,16 @@ async def send_main_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     try:
         # Envia a imagem
-        image_url = config.get('image', '')
-        if image_url:
-            await update.message.reply_photo(photo=image_url)
+        image_source = config.get('image', '')
+        if image_source:
+            # Verifica se é um arquivo local
+            if image_source.startswith('images/') and os.path.exists(image_source):
+                # Envia arquivo local
+                with open(image_source, 'rb') as photo_file:
+                    await update.message.reply_photo(photo=photo_file)
+            else:
+                # Envia URL ou file_id
+                await update.message.reply_photo(photo=image_source)
         
         # Prepara os botões
         keyboard = []
