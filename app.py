@@ -74,7 +74,7 @@ def add_security_headers():
 @app.after_request
 def after_request(response):
     """Adiciona headers de segurança após cada requisição"""
-    response.headers['Content-Security-Policy'] = "frame-ancestors 'self' https://t.me https://web.telegram.org"
+    response.headers['Content-Security-Policy'] = "frame-ancestors 'self' https://t.me https://web.telegram.org https://work-2-mdxxuukcjoqxwbuo.prod-runtime.all-hands.dev"
     response.headers['X-Frame-Options'] = 'ALLOWALL'
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
@@ -304,4 +304,4 @@ def admin_reorder_links():
 
 if __name__ == '__main__':
     init_db()
-    app.run(host='0.0.0.0', port=8080, debug=False)
+    app.run(host='0.0.0.0', port=8000, debug=False)
