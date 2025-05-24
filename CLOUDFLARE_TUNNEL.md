@@ -1,4 +1,19 @@
-# 🌐 Configuração Cloudflare Tunnel (100% Gratuito)
+# 🌐 Cloudflare Tunnel - Acesso HTTPS Gratuito
+
+## 📋 Sobre
+
+O **Cloudflare Tunnel** é uma solução **100% gratuita** que permite expor aplicações locais na internet com HTTPS automático, sem necessidade de configurar DNS ou certificados SSL.
+
+### ✅ Vantagens:
+- **Gratuito** para sempre
+- **HTTPS automático** (SSL/TLS)
+- **Sem configuração de DNS**
+- **Sem abertura de portas** no firewall
+- **URLs aleatórias** (*.trycloudflare.com)
+- **Compatível** com Telegram Mini Apps
+- **Mais estável** que outras soluções gratuitas
+
+---
 
 ## 🚀 Instalação e Configuração
 

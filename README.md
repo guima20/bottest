@@ -26,32 +26,52 @@ Sistema web completo que replica as funcionalidades do Heylink, desenvolvido com
 
 ## 🚀 Como executar
 
-### 1. Execução Rápida (Recomendado)
+### 1. Cloudflare Tunnel - HTTPS Gratuito (Recomendado)
+
+```bash
+# Iniciar sistema com HTTPS público gratuito
+./start_cloudflare.sh
+```
+
+**Vantagens:**
+- ✅ **100% Gratuito** para sempre
+- ✅ **HTTPS automático** (SSL/TLS)
+- ✅ **Sem configuração** de DNS ou certificados
+- ✅ **Compatível** com Telegram Mini Apps
+- ✅ **Mais estável** que outras soluções
+
+### 2. Execução com Proxy Local
 ```bash
 ./start_external.sh
 ```
 
-### 2. Execução Manual
+### 3. Execução Manual
 
-#### 2.1. Configurar ambiente virtual
+#### 3.1. Configurar ambiente virtual
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install flask requests
 ```
 
-#### 2.2. Executar aplicação
+#### 3.2. Executar aplicação
 ```bash
 python app.py
 ```
 
-### 3. Acessar sistema
+### 4. Acessar sistema
 
 #### 🌐 Acesso Local
 - **Landing Page:** http://localhost:8000
 - **Painel Admin:** http://localhost:8000/admin
 
 #### 🌍 Acesso Externo HTTPS
+
+**🚀 Cloudflare Tunnel (Recomendado):**
+- **Landing Page:** https://bike-linked-cashiers-writing.trycloudflare.com
+- **Painel Admin:** https://bike-linked-cashiers-writing.trycloudflare.com/admin
+
+**🔄 URLs Alternativas:**
 - **Landing Page:** https://work-1-mdxxuukcjoqxwbuo.prod-runtime.all-hands.dev
 - **Landing Page:** https://work-2-mdxxuukcjoqxwbuo.prod-runtime.all-hands.dev
 - **Painel Admin:** Adicione `/admin` ao final da URL
@@ -107,6 +127,10 @@ bottest/
    ```
 3. Use a URL HTTPS do sistema:
    ```
+   # Cloudflare Tunnel (Recomendado)
+   https://bike-linked-cashiers-writing.trycloudflare.com
+   
+   # Ou URLs alternativas
    https://work-1-mdxxuukcjoqxwbuo.prod-runtime.all-hands.dev
    ```
 
