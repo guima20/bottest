@@ -98,7 +98,6 @@ async def send_main_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     switch_inline_query_chosen_chat=SwitchInlineQueryChosenChat(
                         query=config.get('add_to_group_message', 'Adicione o bot ao grupo!'),
                         allow_group_chats=True,
-                        allow_supergroup_chats=True,
                         allow_channel_chats=True
                     )
                 )])
