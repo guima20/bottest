@@ -9,7 +9,7 @@ import logging
 import os
 from typing import Dict, Any
 
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, SwitchInlineQueryChosenChat
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
 # Configuração de logging
@@ -88,10 +88,26 @@ async def send_main_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         # Adiciona os botões configurados
         for button in buttons:
-            keyboard.append([InlineKeyboardButton(
-                text=button.get('text', 'Botão'),
-                url=button.get('url', 'https://example.com')
-            )])
+            button_text = button.get('text', 'Botão')
+            button_type = button.get('type', 'url')
+            
+            if button_type == 'add_to_group' and config.get('add_to_group_enabled', False):
+                # Botão para adicionar a grupos
+                keyboard.append([InlineKeyboardButton(
+                    text=button_text,
+                    switch_inline_query_chosen_chat=SwitchInlineQueryChosenChat(
+                        query=config.get('add_to_group_message', 'Adicione o bot ao grupo!'),
+                        allow_group_chats=True,
+                        allow_supergroup_chats=True,
+                        allow_channel_chats=True
+                    )
+                )])
+            else:
+                # Botão URL normal
+                keyboard.append([InlineKeyboardButton(
+                    text=button_text,
+                    url=button.get('url', 'https://example.com')
+                )])
         
         # Adiciona o botão Refresh
         keyboard.append([InlineKeyboardButton(

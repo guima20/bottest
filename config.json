@@ -12,11 +12,14 @@
     },
     {
       "text": "👉 Add To Group",
+      "type": "add_to_group",
       "url": "https://link3.com"
     },
     {
       "text": "👉 Join RichGroup",
       "url": "https://link4.com"
     }
-  ]
+  ],
+  "add_to_group_enabled": true,
+  "add_to_group_message": "🎰 Adicione o Bot Kangaroo ao seu grupo para receber dicas e promoções exclusivas!"
 }

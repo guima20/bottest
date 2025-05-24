@@ -87,6 +87,7 @@ def get_main_menu_keyboard():
             InlineKeyboardButton("🔘 Botão 3", callback_data="edit_button_3"),
             InlineKeyboardButton("🔘 Botão 4", callback_data="edit_button_4")
         ],
+        [InlineKeyboardButton("🏢 Configurar Add To Group", callback_data="config_add_to_group")],
         [
             InlineKeyboardButton("📋 Ver Configuração", callback_data="show_config"),
             InlineKeyboardButton("🔄 Atualizar Menu", callback_data="refresh_menu")
@@ -185,14 +186,85 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data['waiting_for'] = 'image'
     
     elif data.startswith("edit_button_"):
-        button_num = data.split("_")[-1]
+        button_num = int(data.split("_")[-1])
+        config = load_config()
+        buttons = config.get('buttons', [])
+        
+        # Garante que existe o botão
+        while len(buttons) < button_num:
+            buttons.append({"text": "", "url": ""})
+        
+        current_button = buttons[button_num - 1]
+        button_type = current_button.get('type', 'url')
+        type_emoji = "🏢" if button_type == "add_to_group" else "🔗"
+        type_text = "Add To Group" if button_type == "add_to_group" else "URL"
+        
         keyboard = [
             [InlineKeyboardButton(f"📝 Alterar Texto do Botão {button_num}", callback_data=f"button_text_{button_num}")],
             [InlineKeyboardButton(f"🔗 Alterar Link do Botão {button_num}", callback_data=f"button_url_{button_num}")],
+            [InlineKeyboardButton(f"🔄 Tipo: {type_text}", callback_data=f"button_type_{button_num}")],
             [InlineKeyboardButton("🔙 Voltar", callback_data="refresh_menu")]
         ]
+        
         await query.edit_message_text(
-            f"🔘 **Configurar Botão {button_num}**\n\nEscolha o que deseja alterar:",
+            f"""
+🔘 **Configuração do Botão {button_num}**
+
+📝 **Texto atual:** `{current_button.get('text', 'Não definido')}`
+🔗 **Link atual:** `{current_button.get('url', 'Não definido')}`
+{type_emoji} **Tipo:** {type_text}
+
+ℹ️ **Tipos disponíveis:**
+• 🔗 **URL** - Link normal
+• 🏢 **Add To Group** - Permite adicionar bot a grupos
+""",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode='Markdown'
+        )
+    
+    elif data.startswith("button_type_"):
+        button_num = int(data.split("_")[-1])
+        config = load_config()
+        buttons = config.get('buttons', [])
+        
+        # Garante que existe o botão
+        while len(buttons) < button_num:
+            buttons.append({"text": "", "url": ""})
+        
+        # Alterna o tipo do botão
+        current_type = buttons[button_num - 1].get('type', 'url')
+        new_type = 'add_to_group' if current_type == 'url' else 'url'
+        buttons[button_num - 1]['type'] = new_type
+        
+        config['buttons'] = buttons
+        save_config(config)
+        
+        type_emoji = "🏢" if new_type == "add_to_group" else "🔗"
+        type_text = "Add To Group" if new_type == "add_to_group" else "URL"
+        
+        await query.answer(f"Tipo alterado para: {type_text}")
+        
+        # Atualiza a interface
+        current_button = buttons[button_num - 1]
+        keyboard = [
+            [InlineKeyboardButton(f"📝 Alterar Texto do Botão {button_num}", callback_data=f"button_text_{button_num}")],
+            [InlineKeyboardButton(f"🔗 Alterar Link do Botão {button_num}", callback_data=f"button_url_{button_num}")],
+            [InlineKeyboardButton(f"🔄 Tipo: {type_text}", callback_data=f"button_type_{button_num}")],
+            [InlineKeyboardButton("🔙 Voltar", callback_data="refresh_menu")]
+        ]
+        
+        await query.edit_message_text(
+            f"""
+🔘 **Configuração do Botão {button_num}**
+
+📝 **Texto atual:** `{current_button.get('text', 'Não definido')}`
+🔗 **Link atual:** `{current_button.get('url', 'Não definido')}`
+{type_emoji} **Tipo:** {type_text}
+
+ℹ️ **Tipos disponíveis:**
+• 🔗 **URL** - Link normal
+• 🏢 **Add To Group** - Permite adicionar bot a grupos
+""",
             reply_markup=InlineKeyboardMarkup(keyboard),
             parse_mode='Markdown'
         )
@@ -225,16 +297,88 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 {config.get('text', 'Não configurado')}
 ```
 
+🏢 **Add To Group:**
+• Status: {'✅ Ativado' if config.get('add_to_group_enabled', False) else '❌ Desativado'}
+• Mensagem: `{config.get('add_to_group_message', 'Não definida')}`
+
 🔘 **Botões:**
 """
         buttons = config.get('buttons', [])
         for i, button in enumerate(buttons, 1):
-            config_text += f"  {i}. `{button.get('text', 'N/A')}` → `{button.get('url', 'N/A')}`\n"
+            button_type = button.get('type', 'url')
+            type_emoji = "🏢" if button_type == "add_to_group" else "🔗"
+            config_text += f"  {i}. {type_emoji} `{button.get('text', 'N/A')}` → `{button.get('url', 'N/A')}`\n"
         
         keyboard = [[InlineKeyboardButton("🔙 Voltar", callback_data="refresh_menu")]]
         await query.edit_message_text(
             config_text,
             reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode='Markdown'
+        )
+    
+    elif data == "config_add_to_group":
+        config = load_config()
+        status = "✅ Ativado" if config.get('add_to_group_enabled', False) else "❌ Desativado"
+        message = config.get('add_to_group_message', 'Adicione o bot ao grupo!')
+        
+        keyboard = [
+            [InlineKeyboardButton(
+                "❌ Desativar" if config.get('add_to_group_enabled', False) else "✅ Ativar",
+                callback_data="toggle_add_to_group"
+            )],
+            [InlineKeyboardButton("📝 Alterar Mensagem", callback_data="edit_add_to_group_message")],
+            [InlineKeyboardButton("🔙 Voltar", callback_data="refresh_menu")]
+        ]
+        
+        await query.edit_message_text(
+            text=f"""
+🏢 **Configuração Add To Group**
+
+📊 **Status:** {status}
+📝 **Mensagem:** `{message}`
+
+ℹ️ Quando ativado, o botão "Add To Group" permitirá que usuários adicionem o bot aos seus grupos/canais.
+""",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode='Markdown'
+        )
+    
+    elif data == "toggle_add_to_group":
+        config = load_config()
+        config['add_to_group_enabled'] = not config.get('add_to_group_enabled', False)
+        save_config(config)
+        
+        status = "✅ Ativado" if config['add_to_group_enabled'] else "❌ Desativado"
+        await query.answer(f"Add To Group {status}!")
+        
+        # Volta para a configuração
+        keyboard = [
+            [InlineKeyboardButton(
+                "❌ Desativar" if config['add_to_group_enabled'] else "✅ Ativar",
+                callback_data="toggle_add_to_group"
+            )],
+            [InlineKeyboardButton("📝 Alterar Mensagem", callback_data="edit_add_to_group_message")],
+            [InlineKeyboardButton("🔙 Voltar", callback_data="refresh_menu")]
+        ]
+        
+        await query.edit_message_text(
+            text=f"""
+🏢 **Configuração Add To Group**
+
+📊 **Status:** {status}
+📝 **Mensagem:** `{config.get('add_to_group_message', 'Adicione o bot ao grupo!')}`
+
+ℹ️ Quando ativado, o botão "Add To Group" permitirá que usuários adicionem o bot aos seus grupos/canais.
+""",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode='Markdown'
+        )
+    
+    elif data == "edit_add_to_group_message":
+        context.user_data['waiting_for'] = 'add_to_group_message'
+        await query.edit_message_text(
+            text="📝 **Alterar Mensagem do Add To Group**\n\nEnvie a nova mensagem que aparecerá quando o usuário clicar no botão Add To Group:",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Voltar", callback_data="config_add_to_group")]]),
             parse_mode='Markdown'
         )
     
@@ -379,6 +523,17 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if save_config(config):
             await update.message.reply_text(
                 f"✅ **Link do Botão {button_num + 1} atualizado!**\n\nNovo link: `{message_text}`",
+                parse_mode='Markdown'
+            )
+            success = True
+        else:
+            await update.message.reply_text("❌ Erro ao salvar configuração!")
+    
+    elif waiting_for == 'add_to_group_message':
+        config['add_to_group_message'] = message_text
+        if save_config(config):
+            await update.message.reply_text(
+                f"✅ **Mensagem do Add To Group atualizada!**\n\nNova mensagem: `{message_text}`",
                 parse_mode='Markdown'
             )
             success = True

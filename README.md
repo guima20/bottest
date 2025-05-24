@@ -23,7 +23,9 @@ Este projeto implementa um sistema dual de bots:
 - **📊 Status Atual** - Visualiza configuração
 - **📝 Alterar Texto** - Edita mensagem principal
 - **🖼️ Alterar Imagem** - Upload de fotos ou URLs
-- **🔘 Configurar Botões 1-4** - Edita texto e links
+- **🔘 Configurar Botões 1-4** - Edita texto, links e tipo
+- **🏢 Add To Group** - Configuração global da funcionalidade
+- **🔄 Tipos de Botão** - URL normal ou Add To Group
 - **📋 Ver Configuração** - Exibe JSON completo
 - **🔄 Atualizar Menu** - Refresh da interface
 
@@ -51,6 +53,24 @@ python3 unified_bot.py
 ./start_admin.sh
 ```
 
+## 🏢 Nova Funcionalidade: Add To Group
+
+### ✨ O que é?
+Permite que usuários adicionem o bot aos seus grupos e canais do Telegram com um simples clique.
+
+### 🎯 Como funciona?
+1. **Administrador** configura botões como "Add To Group"
+2. **Usuário** clica no botão no bot principal
+3. **Telegram** abre interface para escolher grupo/canal
+4. **Bot** é adicionado automaticamente
+
+### ⚙️ Configuração
+- **Global**: Ativar/desativar funcionalidade
+- **Por botão**: Cada botão pode ser URL ou Add To Group
+- **Mensagem**: Texto personalizado ao clicar
+
+📖 **[Guia Completo](ADD_TO_GROUP_GUIDE.md)** - Documentação detalhada
+
 ## 📁 Estrutura do Projeto
 
 ```
@@ -61,6 +81,7 @@ bottest/
 ├── start_admin.sh        # Script de inicialização admin
 ├── images/              # Diretório para fotos
 ├── test_image_upload.py # Testes do sistema
+├── ADD_TO_GROUP_GUIDE.md # Guia da funcionalidade Add To Group
 └── README.md           # Este arquivo
 ```
 
@@ -70,14 +91,21 @@ bottest/
 {
   "image": "https://exemplo.com/imagem.jpg",
   "text": "👋 Mensagem personalizada",
+  "add_to_group_enabled": true,
+  "add_to_group_message": "Adicione o bot ao seu grupo!",
   "buttons": [
-    {"text": "Botão 1", "url": "https://link1.com"},
-    {"text": "Botão 2", "url": "https://link2.com"},
-    {"text": "Botão 3", "url": "https://link3.com"},
-    {"text": "Botão 4", "url": "https://link4.com"}
+    {"text": "👉 Add To Group", "url": "", "type": "add_to_group"},
+    {"text": "👉 Website", "url": "https://link2.com", "type": "url"},
+    {"text": "👉 Support", "url": "https://link3.com", "type": "url"},
+    {"text": "👉 Channel", "url": "https://link4.com", "type": "url"}
   ]
 }
 ```
+
+### 🆕 Novos Campos
+- `add_to_group_enabled`: Ativa/desativa funcionalidade Add To Group
+- `add_to_group_message`: Mensagem exibida ao clicar no botão
+- `buttons[].type`: Tipo do botão ("url" ou "add_to_group")
 
 ## 🛡️ Segurança
 
