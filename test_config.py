@@ -6,6 +6,20 @@ Script de teste para verificar a configuração dos bots
 import json
 import os
 import sys
+from pathlib import Path
+
+# Carrega variáveis do arquivo .env se existir
+def load_env():
+    env_file = Path('.env')
+    if env_file.exists():
+        with open(env_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key] = value
+
+load_env()
 
 def test_config_file():
     """Testa se o arquivo de configuração está válido"""

@@ -90,12 +90,13 @@ async def send_main_message(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         reply_markup = create_inline_keyboard(config)
         
         # Envia a imagem
-        image_url = config.get('image', '')
-        if image_url:
+        image = config.get('image', '')
+        if image:
             try:
+                # Suporta tanto URLs quanto file_ids do Telegram
                 await context.bot.send_photo(
                     chat_id=update.effective_chat.id,
-                    photo=image_url
+                    photo=image
                 )
                 logger.info(f"Imagem enviada para chat {update.effective_chat.id}")
             except Exception as e:
