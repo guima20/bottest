@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="admin-header d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-tachometer-alt me-2"></i>Painel Administrativo</h1>
+        <div>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-primary me-2" target="_blank">
+                <i class="fas fa-eye me-1"></i>Ver Site
+            </a>
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger">
+                <i class="fas fa-sign-out-alt me-1"></i>Sair
+            </a>
+        </div>
+    </div>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="row">
+        <!-- Configurações Gerais -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-cog me-2"></i>Configurações Gerais</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('admin_update_config') }}" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título da Página</label>
+                            <input type="text" class="form-control" id="title" name="title" 
+                                   value="{{ config.title if config else '' }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="description" name="description" rows="3">{{ config.description if config else '' }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="logo" class="form-label">Logo Principal</label>
+                            {% if config and config.logo_path %}
+                                <div class="current-logo mb-2">
+                                    <img src="{{ url_for('static', filename=config.logo_path) }}" 
+                                         alt="Logo atual" class="img-thumbnail" style="max-width: 100px;">
+                                    <small class="text-muted d-block">Logo atual</small>
+                                </div>
+                            {% endif %}
+                            <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                            <small class="text-muted">Formatos aceitos: PNG, JPG, JPEG, GIF, WEBP</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Salvar Configurações
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Adicionar Novo Link -->
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-plus me-2"></i>Adicionar Novo Link</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('admin_add_link') }}" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="link_title" class="form-label">Título do Link</label>
+                            <input type="text" class="form-control" id="link_title" name="title" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="link_description" class="form-label">Descrição</label>
+                            <input type="text" class="form-control" id="link_description" name="description">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="link_url" class="form-label">URL</label>
+                            <input type="url" class="form-control" id="link_url" name="url" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="link_image" class="form-label">Imagem do Link</label>
+                            <input type="file" class="form-control" id="link_image" name="image" accept="image/*">
+                            <small class="text-muted">Formatos aceitos: PNG, JPG, JPEG, GIF, WEBP</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus me-1"></i>Adicionar Link
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lista de Links -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-list me-2"></i>Links Existentes</h5>
+                </div>
+                <div class="card-body">
+                    {% if links %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Imagem</th>
+                                        <th>Título</th>
+                                        <th>Descrição</th>
+                                        <th>URL</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="links-table">
+                                    {% for link in links %}
+                                    <tr data-link-id="{{ link.id }}">
+                                        <td>
+                                            {% if link.image_path %}
+                                                <img src="{{ url_for('static', filename=link.image_path) }}" 
+                                                     alt="{{ link.title }}" class="img-thumbnail" style="max-width: 50px;">
+                                            {% else %}
+                                                <i class="fas fa-link fa-2x text-muted"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ link.title }}</td>
+                                        <td>{{ link.description or '-' }}</td>
+                                        <td>
+                                            <a href="{{ link.url }}" target="_blank" class="text-truncate d-block" style="max-width: 200px;">
+                                                {{ link.url }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1" 
+                                                    onclick="editLink({{ link.id }}, '{{ link.title }}', '{{ link.description or '' }}', '{{ link.url }}')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <a href="{{ url_for('admin_delete_link', link_id=link.id) }}" 
+                                               class="btn btn-sm btn-outline-danger"
+                                               onclick="return confirm('Tem certeza que deseja remover este link?')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-link fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Nenhum link cadastrado</h5>
+                            <p class="text-muted">Adicione seu primeiro link usando o formulário acima.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Editar Link -->
+<div class="modal fade" id="editLinkModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Link</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editLinkForm" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit_title" class="form-label">Título do Link</label>
+                        <input type="text" class="form-control" id="edit_title" name="title" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit_description" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="edit_description" name="description">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit_url" class="form-label">URL</label>
+                        <input type="url" class="form-control" id="edit_url" name="url" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit_image" class="form-label">Nova Imagem (opcional)</label>
+                        <input type="file" class="form-control" id="edit_image" name="image" accept="image/*">
+                        <small class="text-muted">Deixe em branco para manter a imagem atual</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function editLink(id, title, description, url) {
+    document.getElementById('edit_title').value = title;
+    document.getElementById('edit_description').value = description;
+    document.getElementById('edit_url').value = url;
+    document.getElementById('editLinkForm').action = `/admin/link/edit/${id}`;
+    
+    new bootstrap.Modal(document.getElementById('editLinkModal')).show();
+}
+</script>
+{% endblock %}
