@@ -1,0 +1,22 @@
+{
+  "image": "https://via.placeholder.com/600x400/0066cc/ffffff?text=Chips+Gratis",
+  "text": "👋 Olá! REGISTRE-SE para receber CHIPS GRÁTIS até $130 👇",
+  "buttons": [
+    {
+      "text": "🎁 OFERTA ESPECIAL",
+      "url": "https://oferta-especial.com"
+    },
+    {
+      "text": "👉 Discover More FreeChips and GameTips",
+      "url": "https://link2.com"
+    },
+    {
+      "text": "👉 Add To Group",
+      "url": "https://link3.com"
+    },
+    {
+      "text": "👉 Join RichGroup",
+      "url": "https://link4.com"
+    }
+  ]
+}
