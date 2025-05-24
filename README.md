@@ -118,6 +118,45 @@ X-Frame-Options: ALLOWALL
 Access-Control-Allow-Origin: *
 ```
 
+## 🌍 Acesso Externo HTTPS
+
+### Opção 1: Cloudflare Tunnel (Recomendado - 100% Gratuito)
+
+```bash
+# Executar script automatizado
+./start_cloudflare.sh
+```
+
+O script irá:
+1. Instalar cloudflared automaticamente
+2. Iniciar o Flask se necessário
+3. Criar túnel HTTPS público
+4. Fornecer link para usar no Telegram
+
+### Opção 2: Servidor Proxy Local
+
+```bash
+# Executar script automatizado
+./start_external.sh
+```
+
+**URLs de Acesso:**
+- **Local:** http://localhost:8000
+- **Proxy HTTPS:** http://localhost:9000 (com headers CORS)
+
+### Configuração Manual
+
+```bash
+# Terminal 1 - Flask
+python app.py
+
+# Terminal 2 - Cloudflare Tunnel
+cloudflared tunnel --url http://localhost:8000
+
+# Ou Terminal 2 - Proxy Local
+python proxy_server.py
+```
+
 ## 🔧 Configuração Avançada
 
 ### Variáveis de Ambiente

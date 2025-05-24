@@ -55,12 +55,20 @@ pip install -r requirements.txt
 ```
 
 ### 3. Execução
-```bash
-# Execução rápida
-./start_external.sh
 
-# Ou execução manual
+#### Opção A: Cloudflare Tunnel (Recomendado)
+```bash
+# Script automatizado - instala e configura tudo
+./start_cloudflare.sh
+```
+
+#### Opção B: Servidor Local
+```bash
+# Execução local simples
 python app.py
+
+# Ou com proxy para HTTPS
+./start_external.sh
 ```
 
 ## 🌍 Acesso ao Sistema
@@ -68,6 +76,11 @@ python app.py
 ### Local
 - **Landing Page:** http://localhost:8000
 - **Admin:** http://localhost:8000/admin
+
+### Cloudflare Tunnel (HTTPS Público)
+- **Landing Page:** https://abc-def-123.trycloudflare.com
+- **Admin:** https://abc-def-123.trycloudflare.com/admin
+- **Para Telegram:** Use o link HTTPS no BotFather
 
 ### Externo (HTTPS)
 - **Landing Page:** https://seu-dominio.com
