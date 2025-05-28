@@ -2,6 +2,17 @@
 
 Um sistema completo de bots para Telegram com interface gráfica, composto por um bot principal para interação com grupos e um bot administrativo para gerenciamento.
 
+## 📥 Download Direto
+
+**🔗 Link para download:** [https://github.com/guima20/bottest/archive/refs/heads/main.zip](https://github.com/guima20/bottest/archive/refs/heads/main.zip)
+
+**📂 Repositório GitHub:** [https://github.com/guima20/bottest](https://github.com/guima20/bottest)
+
+### Instruções de Download:
+1. **Download direto:** Clique no link acima para baixar o arquivo ZIP
+2. **Clone via Git:** `git clone https://github.com/guima20/bottest.git`
+3. **Download manual:** Acesse o repositório e clique em "Code" → "Download ZIP"
+
 ## 📋 Características
 
 ### Bot Principal (Kangaroo)
