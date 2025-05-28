@@ -1,0 +1,18 @@
+[
+    {
+        "chat_id": "-1001234567890",
+        "title": "Grupo Demo 1",
+        "type": "supergroup",
+        "username": "grupo_demo_1",
+        "added_date": "2025-05-28T03:04:07.291821",
+        "status": "active"
+    },
+    {
+        "chat_id": "-1001234567891",
+        "title": "Grupo Demo 2",
+        "type": "supergroup",
+        "username": "grupo_demo_2",
+        "added_date": "2025-05-28T03:04:07.291827",
+        "status": "active"
+    }
+]

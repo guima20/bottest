@@ -1,93 +1,201 @@
-# guima20-project
+# 🤖 Sistema de Bots Telegram - Kangaroo
 
+Um sistema completo de bots para Telegram com interface gráfica, composto por um bot principal para interação com grupos e um bot administrativo para gerenciamento.
 
+## 📋 Características
 
-## Getting started
+### Bot Principal (Kangaroo)
+- ✅ Coleta automática de chat_id quando adicionado a grupos
+- ✅ Comando `/start` para registro e ativação
+- ✅ Mensagens de boas-vindas personalizáveis
+- ✅ Processamento de mensagens agendadas
+- ✅ Botões inline customizáveis
+- ✅ Verificação periódica de mensagens pendentes
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Bot Administrativo
+- ✅ Verificação de permissões de administrador
+- ✅ Envio de mensagens para grupos específicos ou todos
+- ✅ Agendamento de mensagens
+- ✅ Interface com botões inline
+- ✅ Sistema de logs
+- ✅ Gerenciamento de grupos
+- ✅ Configurações personalizáveis
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Interface Gráfica (GUI)
+- ✅ Controle completo dos bots via tkinter
+- ✅ Monitoramento em tempo real
+- ✅ Gerenciamento de grupos
+- ✅ Envio de mensagens
+- ✅ Configuração de boas-vindas
+- ✅ Visualização de logs
+- ✅ Estatísticas do sistema
 
-## Add your files
+## 🚀 Instalação e Uso
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+### 1. Preparação do Ambiente
+
+```bash
+# Clone o repositório
+git clone <url-do-repositorio>
+cd guima20-project
+
+# Instale as dependências
+pip install -r requirements.txt
+```
+
+### 2. Configuração
+
+Edite o arquivo `.env` com seus tokens e configurações:
+
+```env
+TELEGRAM_BOT_TOKEN=7862546836:AAHtlgCVOdrI5saF0Ca4ruX1c56FyVHUQAE
+TELEGRAM_ADMIN_BOT_TOKEN=7727769382:AAEvsuGUALNt5rDLjyOdHaTRKnJmu36ch5A
+ADMIN_IDS=123456789,987654321
+TELEGRAM_CHAT_ID=-100123456789
+```
+
+### 3. Inicialização
+
+#### Opção 1: Interface Gráfica (Recomendado)
+```bash
+python start_gui.py
+```
+
+#### Opção 2: Linha de Comando
+```bash
+# Terminal 1 - Bot Principal
+python unified_bot.py
+
+# Terminal 2 - Bot Administrativo  
+python admin_bot.py
+```
+
+## 📁 Estrutura de Arquivos
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/guima20-group/guima20-project.git
-git branch -M main
-git push -uf origin main
+/
+├── unified_bot.py          # Bot principal (Kangaroo)
+├── admin_bot.py            # Bot administrativo
+├── bot_messages.py         # Gerenciamento de mensagens
+├── gui_manager.py          # Interface gráfica
+├── start_gui.py            # Script de inicialização
+├── config.json             # Configurações do bot principal
+├── groups.json             # Registro de grupos
+├── pending_messages.json   # Mensagens agendadas
+├── requirements.txt        # Dependências
+├── .env                    # Variáveis de ambiente
+└── README.md              # Este arquivo
 ```
 
-## Integrate with your tools
+## 🎯 Funcionalidades Principais
 
-- [ ] [Set up project integrations](https://gitlab.com/guima20-group/guima20-project/-/settings/integrations)
+### 📱 Gerenciamento de Grupos
+- Registro automático quando o bot é adicionado
+- Visualização de grupos cadastrados
+- Remoção de grupos
+- Estatísticas de membros
 
-## Collaborate with your team
+### 💬 Sistema de Mensagens
+- Envio imediato para grupos específicos ou todos
+- Agendamento de mensagens
+- Botões personalizáveis
+- Histórico de mensagens enviadas
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### ⚙️ Configurações
+- Mensagem de boas-vindas personalizável
+- Botões inline configuráveis
+- Configurações de administradores
+- Logs do sistema
 
-## Test and Deploy
+### 🖥️ Interface Gráfica
+- **Controle de Bots**: Iniciar/parar bots com um clique
+- **Estatísticas**: Visualização em tempo real
+- **Gerenciamento**: Grupos, mensagens e configurações
+- **Logs**: Monitoramento completo do sistema
 
-Use the built-in continuous integration in GitLab.
+## 🔧 Configuração Avançada
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Tokens dos Bots
+1. Crie os bots no [@BotFather](https://t.me/BotFather)
+2. Obtenha os tokens
+3. Configure no arquivo `.env`
 
-***
+### Administradores
+1. Obtenha seu ID do Telegram (use [@userinfobot](https://t.me/userinfobot))
+2. Adicione ao `ADMIN_IDS` no `.env`
+3. Separe múltiplos IDs com vírgula
 
-# Editing this README
+### Canal de Logs
+1. Crie um canal ou grupo
+2. Adicione o bot administrativo
+3. Configure o `TELEGRAM_CHAT_ID` no `.env`
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## 📊 Monitoramento
 
-## Suggestions for a good README
+### Logs do Sistema
+- Inicialização dos bots
+- Mensagens enviadas
+- Erros e avisos
+- Atividades administrativas
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Estatísticas
+- Número de grupos cadastrados
+- Mensagens pendentes
+- Última verificação
+- Status dos bots
 
-## Name
-Choose a self-explaining name for your project.
+## 🛠️ Solução de Problemas
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Bot não inicia
+1. Verifique se o token está correto
+2. Confirme se as dependências estão instaladas
+3. Verifique as permissões de arquivo
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Mensagens não são enviadas
+1. Verifique se o bot está ativo nos grupos
+2. Confirme se há mensagens pendentes
+3. Verifique os logs para erros
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Interface gráfica não abre
+1. Verifique se o tkinter está instalado
+2. Use o modo de linha de comando como alternativa
+3. Verifique os logs de erro
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## 🔒 Segurança
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+- ✅ Verificação de permissões de administrador
+- ✅ Tokens seguros via variáveis de ambiente
+- ✅ Logs de todas as atividades
+- ✅ Validação de entrada de dados
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## 📝 Logs
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+O sistema mantém logs detalhados de:
+- Inicialização e parada dos bots
+- Mensagens enviadas e recebidas
+- Erros e exceções
+- Atividades administrativas
+- Alterações de configuração
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## 🤝 Contribuição
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+1. Fork o projeto
+2. Crie uma branch para sua feature
+3. Commit suas mudanças
+4. Push para a branch
+5. Abra um Pull Request
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## 📄 Licença
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
 
-## License
-For open source projects, say how it is licensed.
+## 📞 Suporte
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Para suporte e dúvidas:
+- Abra uma issue no GitHub
+- Entre em contato via Telegram
+- Consulte a documentação
+
+---
+
+**Desenvolvido com ❤️ para a comunidade Telegram**

@@ -1,0 +1,61 @@
+{
+    "last_id": 4,
+    "messages": [
+        {
+            "id": 1,
+            "text": "🎉 Esta é uma mensagem de demonstração enviada para todos os grupos!",
+            "target_groups": [
+                "-1001234567890",
+                "-1001234567891"
+            ],
+            "created_at": "2025-05-28T03:04:07.292145",
+            "status": "pending",
+            "title": "Mensagem Demo - Todos os Grupos",
+            "send_now": true
+        },
+        {
+            "id": 2,
+            "text": "📱 Esta mensagem é específica para o Grupo Demo 1!",
+            "target_groups": [
+                "-1001234567890"
+            ],
+            "created_at": "2025-05-28T03:04:07.292453",
+            "status": "pending",
+            "title": "Mensagem Demo - Grupo Específico",
+            "send_now": true
+        },
+        {
+            "id": 3,
+            "text": "⏰ Esta é uma mensagem agendada para 1 minuto no futuro!",
+            "target_groups": [
+                "-1001234567890",
+                "-1001234567891"
+            ],
+            "created_at": "2025-05-28T03:04:07.293087",
+            "status": "pending",
+            "title": "Mensagem Demo - Agendada",
+            "scheduled_time": "2025-05-28T03:05:07.293004"
+        },
+        {
+            "id": 4,
+            "text": "🔗 Esta mensagem tem botões personalizados!",
+            "target_groups": [
+                "-1001234567891"
+            ],
+            "created_at": "2025-05-28T03:04:07.293839",
+            "status": "pending",
+            "title": "Mensagem Demo - Com Botões",
+            "send_now": true,
+            "buttons": [
+                {
+                    "text": "📱 Canal Oficial",
+                    "url": "https://t.me/Kangaroo_bot_bot"
+                },
+                {
+                    "text": "💬 Suporte",
+                    "url": "https://t.me/Kangaroo_bot_bot"
+                }
+            ]
+        }
+    ]
+}
